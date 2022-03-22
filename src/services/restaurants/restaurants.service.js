@@ -15,6 +15,9 @@ export const restaurantTransform = (results = []) => {
     restaurant.photos = restaurant.photos.map(() => {
       return mockImages[Math.ceil(Math.random() * (mockImages.length - 1))];
     });
+    restaurant.address = restaurant.vicinity;
+    delete restaurant.vicinity;
+
     return {
       ...restaurant,
       isOpenNow: restaurant.opening_hours && restaurant.opening_hours.open_now,
