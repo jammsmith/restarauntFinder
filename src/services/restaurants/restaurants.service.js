@@ -1,11 +1,12 @@
 import { mocks, mockImages } from './mock';
 import camelize from 'camelize';
 
-export const restaurantRequest = (location = '37.7749295,-122.4194155') => (
+export const restaurantRequest = async (location) => (
   new Promise((resolve, reject) => {
     const locationData = mocks[location];
+
     locationData
-      ? resolve(locationData)
+      ? setTimeout(() => resolve(locationData), 2000)
       : reject(new Error('No location found for', location));
   })
 );
@@ -15,14 +16,14 @@ export const restaurantTransform = (results = []) => {
     restaurant.photos = restaurant.photos.map(() => {
       return mockImages[Math.ceil(Math.random() * (mockImages.length - 1))];
     });
-    restaurant.address = restaurant.vicinity;
-    delete restaurant.vicinity;
 
     return {
       ...restaurant,
+      address: restaurant.vicinity,
       isOpenNow: restaurant.opening_hours && restaurant.opening_hours.open_now,
       isClosedTemporarily: restaurant.business_status === 'CLOSED_TEMPORARILY'
     };
   });
+
   return camelize(mappedResults);
 };
