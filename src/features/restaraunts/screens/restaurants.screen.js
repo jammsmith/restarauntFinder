@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components/native';
-import { FlatList } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native';
 
 import { Search } from '../components/search.component';
 import { SafeArea } from '../../../components/utilities/safe-area.component';
@@ -14,8 +14,14 @@ const RestaurantList = styled(FlatList).attrs({
   }
 })``;
 
-export const RestaurantsScreen = () => {
+export const RestaurantsScreen = ({ navigation }) => {
   const { restaurants, loading } = useContext(RestaurantsContext);
+
+  const handleCardPress = (item) => {
+    navigation.navigate('restaurant-details', {
+      restaurant: item
+    });
+  };
 
   return (
     <SafeArea>
@@ -26,7 +32,11 @@ export const RestaurantsScreen = () => {
           : (
             <RestaurantList
               data={restaurants}
-              renderItem={({ item }) => <RestaurantInfoCard restaurant={item} />}
+              renderItem={({ item }) => (
+                <TouchableOpacity onPress={() => handleCardPress(item)}>
+                  <RestaurantInfoCard restaurant={item} />
+                </TouchableOpacity>
+              )}
               keyExtractor={({ placeId }) => placeId}
             />
           )

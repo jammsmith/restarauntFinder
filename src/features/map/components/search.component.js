@@ -5,7 +5,11 @@ import { Searchbar } from 'react-native-paper';
 import { LocationContext } from '../../../services/location/location.context';
 
 const SearchContainer = styled.View`
-  padding: ${({ theme }) => theme.space[3]};
+  z-index: 999;
+  width: 100%;
+  position: absolute;
+  top: 50px;
+  padding: 0 16px;
 `;
 
 export const Search = () => {
@@ -22,6 +26,7 @@ export const Search = () => {
     <SearchContainer>
       <Searchbar
         placeholder='Search for a location'
+        icon='map'
         value={searchKeyword}
         onSubmitEditing={() => {
           search(searchKeyword);
